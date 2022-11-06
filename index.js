@@ -2,7 +2,7 @@ import dotenv from "dotenv";
 import express from "express";
 import mongoose from "mongoose";
 import MovieListSchema from "./schema/MovieListSchema.js";
-import { getMovies } from "./routes/routes.js";
+import movies, { getMovies } from "./routes/movies.js";
 
 dotenv.config();
 
@@ -10,6 +10,7 @@ const app = express();
 const MovieList = mongoose.model("movieList", MovieListSchema);
 
 app.use(express.json());
+app.use('/movies', movies)
 
 const port = process.env.PORT || 5500;
 const DB_USERNAME = process.env.DB_USERNAME;
@@ -23,11 +24,10 @@ mongoose.connect(connectionString, {
   dbName: "horror_movies",
 });
 
-const movies = await getMovies(1);
-let totalPages = movies.total_pages;
-console.log(totalPages);
+/* const movies = await getMovies(1);
+let totalPages = movies.total_pages; */
 
-const createList = async () => {
+/* const createList = async () => {
   let movieList = movies.results;
   for (let i = 501; i <= 700; i++) {
     console.log(i)
@@ -46,5 +46,4 @@ const saveMovies = async () => {
   } catch (err) {
     console.log(err.message);
   }
-};
-saveMovies();
+}; */
