@@ -22,14 +22,27 @@ mongoose.connect(connectionString, {
   useNewUrlParser: true,
   dbName: "horror_movies",
 });
-const db = mongoose.connection;
+
+const movies = await getMovies(1);
+let totalPages = movies.total_pages;
+console.log(totalPages);
+
+const createList = async () => {
+  let movieList = movies.results;
+  for (let i = 501; i <= 700; i++) {
+    console.log(i)
+    const newMovies = await getMovies(i);
+    console.log(newMovies)
+    movieList.push(...newMovies?.results);
+  }
+  return movieList;
+};
 
 const saveMovies = async () => {
-  const movies = await getMovies();
-  const movieList = new MovieList({ movies: movies.results });
+  const finalList = await createList();
+  const movieList = new MovieList({ movies: finalList });
   try {
-    const result = await movieList.save();
-    console.log(result);
+    await movieList.save();
   } catch (err) {
     console.log(err.message);
   }

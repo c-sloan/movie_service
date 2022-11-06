@@ -17,15 +17,8 @@ const options = {
   headers: { Authorization: "Bearer " + AUTH_TOKEN },
 };
 
-/* fetch(url, options)
-	.then(res => res.json())
-	.then(json => console.log(json))
-	.catch(err => console.error('error:' + err));
-*/
-
-// async await syntax
-
-export const getMovies = async () => {
+export const getMovies = async (currPage) => {
+  url.searchParams.append("page", currPage);
   try {
     const res = await fetch(url, options);
     const json = await res.json();
@@ -33,22 +26,6 @@ export const getMovies = async () => {
   } catch (err) {
     console.log(err);
   }
-  console.log("This is a GET request");
 };
-
-/*
-router.get(`/`, function (req, res) {
-	res.status(200).json({msg: `It's a GET request.`});
-});
-router.post(`/`, function (req, res) {
-	res.status(200).json({msg: `It's a POST request.`});
-});
-router.put(`/`, function (req, res) {
-	res.status(200).json({msg: `It's a PUT request.`});
-});
-router.delete(`/`, function (req, res) {
-	res.status(200).json({msg: `It's a DELETE request.`});
-});
-*/
 
 export default router;
